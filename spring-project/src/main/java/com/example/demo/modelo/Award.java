@@ -10,8 +10,8 @@ criado da mesma forma em nosso banco.
 
 
 @Entity //Mostra ao SPRING que é uma tabela
-@Table(schema = "prize") //Da nome a uma tabela ou utiliza uma table existente, caso seja existente todos os campos - devem ser identicos (classe e tabela)
-public class Prize {
+@Table(schema = "award") //Da nome a uma tabela ou utiliza uma table existente, caso seja existente todos os campos - devem ser identicos (classe e tabela)
+public class Award {
 
     @Id //NECESSÁRIO MARCAR COMO ID (CHAVE PRIMARIA)
     //@GeneratedValue(strategy = GenerationType.AUTO) //GERADOR AUTOMATICO DE ID
