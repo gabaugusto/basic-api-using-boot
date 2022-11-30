@@ -14,11 +14,13 @@
     <div class="container">
         <div class="col-md-12 col-lg-12">
             <h4 class="mb-3">Indicados ao Oscar</h4>
-            <p>Cadastre abaixo novos filmes indicados ao Oscar para alimentar a API.</p>
+            
+            <p>Cadastre abaixo novos filmes indicados ao Oscar para alimentar o banco através da API.</p>
+           
             <form action="http://localhost/api/xxx" id="simpleForm" class="needs-validation">
 
                 <div class="col-sm-12">
-                    <label for="name" class="form-label">Nome do indicado</label>
+                    <label for="name" class="form-label">Nome da pessoa indicada</label>
                     <input type="text" name="name" id="name" class="form-control" required>
                 </div>
 
@@ -30,7 +32,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <label for="year_film" class="form-label">Ano Filmagem:</label>
-                        <input type="text" name="year_film" id="year_film" class="form-control">
+                        <input type="number" name="year_film" id="year_film" class="form-control">
                     </div>
 
                     <div class="col-sm-6">
@@ -59,22 +61,28 @@
                     </div>
                 </div>
                 <div class="row">
-                    <input type="submit" class="my-4 w-100 btn btn-primary btn-lg" value="Registrar Indicados ao Oscar">
+                    <input type="submit" class="my-4 w-100 btn btn-primary btn-lg" value="Registrar indicados ao Oscar">
                 </div>
                 <div class="row">
-
-                    <div id="response" class="response"></div>
+                    <div id="response" class="response">
+                        
+                    </div>
                 </div>
             </form>
         </div>
     </div>
     <script>
+        /**
+        * Identifies the form and add an event
+        * Identifica o formulário e adiciona o evento
+        *
+        */
         const simpleForm = document.getElementById("simpleForm");
         simpleForm.addEventListener("submit", handleFormSubmit);
 
         /**
         * Event handler for a form submit event.
-        * Função Manipuladora de eventos para um envio de formulário.
+        * Função manipuladora de eventos para um envio de formulário.
         * @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/submit_event
         * 
         * @param {SubmitEvent} event
@@ -83,7 +91,6 @@
             /**
             * preventDefault prevents the default behaviour of the browser submitting
             * the form so that we can handle things instead.
-
             * preventDefault impede o comportamento padrão do envio do navegador ao formulário para que possamos lidar nós mesmos com os dados.
             * 
             */
@@ -105,17 +112,15 @@
             try {
 
                 /**
-                * This takes all the fields in the form and makes their values
-                * available through a `FormData` instance.
+                * This takes all the fields in the form and makes their values available through a `FormData` instance.
+                * 
                 * Isso pega todos os campos do formulário e torna seus valores disponiveis através de uma instância da Classe `FormData`.
                 * 
                 * @see https://developer.mozilla.org/en-US/docs/Web/API/FormData
                 */
+
                 const formData = new FormData(form);
-                const responseData = await postFormDataAsJson({
-                    url,
-                    formData
-                });
+                const responseData = await postFormDataAsJson({url, formData});
 
                 console.log({
                     responseData
@@ -130,17 +135,16 @@
                 **/
                 const print = document.getElementById("response");
                 print.innerHTML = "";
-                print.innerHTML += "Resposta da API ";
+                print.innerHTML += "<strong>Resposta da API<strong> <br>";
 
-                const keys = Object.toString(responseData)
+                print.innerHTML += "Indicado: " + responseData.name + "<br>";                    
                 print.innerHTML += "Filme: " + responseData.film + "<br>";
+                print.innerHTML += "Ano da Filmagem: " + responseData.year_film + "<br>";                
                 print.innerHTML += "Categoria: " + responseData.category + "<br>";
                 print.innerHTML += "Cerimônia: " + responseData.ceremony + "<br>";
-                print.innerHTML += "Indicado: " + responseData.name + "<br>";
                 print.innerHTML += "Vencedor: " + responseData.winner + "<br>";
                 print.innerHTML += "ID da Criação: " + responseData.id + "<br>";
                 print.innerHTML += "Ano da Cerimônia: " + responseData.year_ceremony + "<br>";
-                print.innerHTML += "Ano da Filmagem: " + responseData.year_film + "<br>";
 
                 return responseData;
 
@@ -157,10 +161,7 @@
         *    
         
         **/
-        async function postFormDataAsJson({
-            url,
-            formData
-        }) {
+        async function postFormDataAsJson({url, formData}) {
             
             /**
             * We can't pass the `FormData` instance directly to `fetch`
@@ -214,12 +215,11 @@
                 * O corpo da nossa solicitação POST é a string JSON que
                 * que criamos acima.
                 */
-                body: formDataJsonString,
+                body: formDataJsonString,   
             };
 
             const response = await fetch(url, fetchOptions);
-
-
+          
             if (!response.ok) {
                 const errorMessage = await response.text();
                 throw new Error(errorMessage);
