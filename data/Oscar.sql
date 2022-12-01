@@ -29,10 +29,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prize`
+-- Table structure for table `award`;
 --
 
-DROP TABLE IF EXISTS `record`;
+DROP TABLE IF EXISTS `award`;
 CREATE TABLE IF NOT EXISTS `record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `year_film` int(11) DEFAULT NULL,
@@ -46,10 +46,10 @@ CREATE TABLE IF NOT EXISTS `record` (
 );
 
 --
--- Dumping data for table `prize`
+-- Dumping data for table `award`;
 --
 
-INSERT INTO `record` (`id`, `year_film`, `year_ceremony`, `ceremony`, `category`, `name`, `film`, `winner`) VALUES
+INSERT INTO `award` (`id`, `year_film`, `year_ceremony`, `ceremony`, `category`, `name`, `film`, `winner`) VALUES
 (1, 1927, 1928, 1, 'ACTOR', 'Richard Barthelmess', 'The Noose', '0'),
 (2, 1927, 1928, 1, 'ACTOR', 'Emil Jannings', 'The Last Command', '1'),
 (3, 1927, 1928, 1, 'ACTRESS', 'Louise Dresser', 'A Ship Comes In', '0'),
@@ -142,7 +142,7 @@ INSERT INTO `record` (`id`, `year_film`, `year_ceremony`, `ceremony`, `category`
 (90, 1929, 1930, 3, 'ART DIRECTION', '(Hans Dreier)', 'The Vagabond King', '0'),
 (91, 1929, 1930, 3, 'CINEMATOGRAPHY', '(Arthur Edeson)', 'All Quiet on the Western Front', '0'),
 (92, 1929, 1930, 3, 'CINEMATOGRAPHY', '(William Daniels)', 'Anna Christie', '0'),
-(93, 1929, 1930, 3, 'CINEMATOGRAPHY', '(Gaetano Gaudio), (  Harry Perry)', 'HellsAngels', '0'),
+(93, 1929, 1930, 3, 'CINEMATOGRAPHY', '(Gaetano Gaudio), (Harry Perry)', 'HellsAngels', '0'),
 (94, 1929, 1930, 3, 'CINEMATOGRAPHY', '(Victor Milner)', 'The Love Parade', '0'),
 (95, 1929, 1930, 3, 'CINEMATOGRAPHY', 'Joseph T. Rucker, Willard Van Der Veer', 'With Byrd at the South Pole', '1'),
 (96, 1929, 1930, 3, 'DIRECTING', 'Clarence Brown', 'Anna Christie;', '0'),
