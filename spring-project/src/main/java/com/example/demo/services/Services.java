@@ -1,7 +1,7 @@
 package com.example.demo.services;
 
-import com.example.demo.modelo.Prize;
-import com.example.demo.repository.PrizeRepository;
+import com.example.demo.modelo.Award;
+import com.example.demo.repository.AwardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,28 +14,28 @@ import java.util.Optional;
 public class Services {
 
     @Autowired
-    private PrizeRepository prizeRepository;
+    private AwardRepository awardRepository;
 
-    public Optional<Prize> findPrizeByName(String name){
-        return prizeRepository.findPrizeByName(name);
+    public Optional<Award> findAwardByName(String name){
+        return awardRepository.findAwardByName(name);
     }
 
-    public Optional<Prize> findPrizeByid(int id){
-        return prizeRepository.findPrizeByid(id);
+    public Optional<Award> findAwardByid(int id){
+        return awardRepository.findAwardByid(id);
     }
 
     @Transactional //A Anotação Transactional serve para conectar e interagir com o banco.
-    public Prize addPrize(Prize prize){
-        return prizeRepository.save(prize);
+    public Award addAward(Award prize){
+        return awardRepository.save(prize);
     }
 
     @Transactional
-    public void deletePrize(Prize prize){
-        prizeRepository.delete(prize);
+    public void deleteAward(Award prize){
+        awardRepository.delete(prize);
     }
 
-    public Prize updatePrize(Prize prize){
-        return prizeRepository.save(prize);
+    public Award updateAward(Award prize){
+        return awardRepository.save(prize);
     }
 
 
