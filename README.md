@@ -16,16 +16,6 @@ This API will showcase the following features:
 2. **RESTful Architecture**: The API follows the principles of Representational State Transfer (REST), providing a uniform interface for interacting with resources.
 3. **Validation**: Request data is validated to ensure it meets the required criteria before processing.
 
-## Getting Started
-To get started with this project, follow these steps:
-
-1. Clone the repository: `git clone <repository-url>`
-2. Open the project in your preferred IDE.
-3. Build the project using Maven: `mvn clean install`.
-4. Run the API locally: `mvn spring-boot:run`.
-5. Access the API documentation in a web browser: `http://localhost:8080/swagger-ui.html`.
-6. Use tools like Postman to interact with the API endpoints.
-
 Feel free to explore and modify the code to learn more about building APIs with Java SpringBoot.
 
 ## Resources
