@@ -8,7 +8,7 @@ USE oscar_database;
 
 -- Apagar uma tabela 
 -- DROP TABLE movies;
-DROP TABLE movies;
+DROP TABLE IF EXISTS movies;
 
 -- Alguns exemplos de regras;
 -- -> PRIMARY KEY único e obrigatório
@@ -10427,3 +10427,4 @@ INSERT INTO movies (year_film, year_ceremony, ceremony, category, `name`, film, 
 INSERT INTO movies (year_film, year_ceremony, ceremony, category, `name`, film, winner) VALUES ('2019', '2020', '92', 'HONORARY AWARD', 'David Lynch', '', 'True');
 INSERT INTO movies (year_film, year_ceremony, ceremony, category, `name`, film, winner) VALUES ('2019', '2020', '92', 'HONORARY AWARD', 'Wes Studi', '', 'True');
 INSERT INTO movies (year_film, year_ceremony, ceremony, category, `name`, film, winner) VALUES ('2019', '2020', '92', 'HONORARY AWARD', 'Lina Wertmüller', '', 'True');
+'+
