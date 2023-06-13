@@ -1,6 +1,10 @@
 package com.example.demo.modelo;
 
-import javax.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+import jakarta.persistence.*;
 import java.util.UUID;
 
 /*
@@ -10,7 +14,7 @@ criado da mesma forma em nosso banco.
 
 
 @Entity //Mostra ao SPRING que é uma tabela
-@Table(schema = "award") //Da nome a uma tabela ou utiliza uma table existente, caso seja existente todos os campos - devem ser identicos (classe e tabela)
+@Table(schema = "movies") //Da nome a uma tabela ou utiliza uma table existente, caso seja existente todos os campos - devem ser identicos (classe e tabela)
 public class Award {
 
     @Id //NECESSÁRIO MARCAR COMO ID (CHAVE PRIMARIA)

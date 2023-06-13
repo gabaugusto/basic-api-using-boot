@@ -5,7 +5,7 @@ import com.example.demo.repository.AwardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.util.Optional;
 
 // A forma de trabalhar com Services é para gerar maior organização no projeto.
