@@ -1,0 +1,737 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Criar uma API usando SpringBoot</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="cd259712-bc67-4845-96bc-1b3c691515f6" class="page sans"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" style="object-position:center 50%"/><h1 class="page-title">Criar uma API usando SpringBoot</h1><p class="page-description"></p></header><div class="page-body"><p id="dfe0ea82-1d54-4c80-b19b-75a972c1b91f" class="">Desenvolver APIs é uma atividade crucial para qualquer programador que trabalhe com sistemas distribuídos. Dentro desse contexto, o SpringBoot é um dos frameworks mais utilizados para criação de APIs em Java.
+Com o SpringBoot, você pode criar APIs de maneira eficiente e rápida, aproveitando a vasta gama de recursos oferecidos pela framework. Além disso, o SpringBoot é uma opção popular entre os desenvolvedores devido à sua facilidade de uso e flexibilidade.
+Ao usar o SpringBoot, você pode criar APIs que atendam às suas necessidades, desde APIs simples até APIs complexas que envolvem múltiplos serviços e integrações. Com o suporte do Spring Framework, você pode se concentrar na lógica de negócios da sua aplicação e deixar que o SpringBoot cuide da infraestrutura da API.
+Se você está procurando uma maneira fácil e eficiente de criar APIs em Java, o SpringBoot é uma excelente opção. Com sua ampla gama de recursos e suporte do Spring Framework, você pode criar APIs robustas e escaláveis que atendam às suas necessidades de negócios.</p><p id="973f0aee-1c33-4884-90da-c875d2855e19" class="">Todo o material para download desde projeto está disponível para download <a href="https://github.com/gabaugusto/basic-api-using-spring-boot-maven">aqui</a>. </p><p id="004f1b64-2d7a-4cdb-b9f8-938e6ccea5bd" class="">O SpringBoot é uma ferramenta que facilita o processo de configuração e inicialização de aplicações Java, permitindo que desenvolvedores criem APIs de maneira rápida e simples.</p><p id="da756366-e509-44c7-92b1-4e4b5559e259" class=""><strong>Importante</strong>: Durante esse tutorial veremos diversos termos técnicos. Caso precise, no final, teremos um glossário para ilustrar alguns desses termos. </p><h3 id="6741c0ad-b57e-498d-a9ae-eae661eb641b" class="">Índice</h3><nav id="b542b8e5-39c8-4fd7-9d13-ac55699f202b" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#6741c0ad-b57e-498d-a9ae-eae661eb641b">Índice</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#9f21f557-7c8d-4e12-bd46-345878f0bf71">Resumo do Processo</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#69335949-12dc-4473-b081-856c9250eb45">Desenvolvimento da API</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f65b74ae-be76-42cd-9873-80a8c7f01904">Setup do Projeto</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d26411ba-675f-471e-93cf-7d1d1ba0b58f">Hora de Configurar!</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c7c3ddf4-efbd-440a-864c-28f5cd7abb31">Criando a estrutura de pastas. </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#aa9ab887-aec5-4c90-8f42-267040eeafb6">Hora de Codar!</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b104d779-9af6-4926-9c72-e3795b59d919">Glosssário</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ae770786-aeea-40de-843a-3a46b2d2af1b">Spring e Spring Boot</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#73c303fa-b77a-4369-9e3b-22a3a3d555dd"><strong>Maven </strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3cc71815-ca51-43e0-8300-746369ffbe2c"><strong>Persistência</strong></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b50e66e8-4592-4a6d-8678-7e4d99fff1ad">Fechando o livro, mas não podemos encerrar o aprendizado. </a></div></nav><p id="cce4d421-3a26-4c54-a7be-ecb2604433a0" class="">
+</p><h2 id="9f21f557-7c8d-4e12-bd46-345878f0bf71" class="">Resumo do Processo</h2><p id="262513e5-64a3-4cee-aeb8-3b483b7aa68e" class="">Para criar uma API usando SpringBoot, é necessário seguir alguns passos básicos:</p><ol type="1" id="265e0fca-c4fc-43ae-81da-8e4b77a8bc2a" class="numbered-list" start="1"><li>Configurar o ambiente de desenvolvimento: Para criar uma API usando SpringBoot, é necessário ter instalado em seu ambiente de desenvolvimento o JDK (Java Development Kit) e o Maven. O JDK é necessário para compilar e executar a aplicação, enquanto o Maven é um gerenciador de dependências que permite gerenciar as bibliotecas que serão utilizadas no projeto.</li></ol><ol type="1" id="0f3a4506-b2cc-47b2-aae8-5e4db13c94e6" class="numbered-list" start="2"><li>Criar um novo projeto SpringBoot: Para criar um novo projeto SpringBoot, é possível utilizar o Spring Initializr, que é uma ferramenta online para geração de projetos SpringBoot. Nesta ferramenta, é possível escolher as dependências que serão utilizadas no projeto, como por exemplo, o Spring Web, que é utilizado para criar aplicações web.</li></ol><ol type="1" id="954f9b48-6e05-4f39-a8ae-25fe74a72e46" class="numbered-list" start="3"><li>Implementar a camada de serviço: A camada de serviço é responsável por implementar as regras de negócio da aplicação. Nesta camada, é possível implementar a lógica da API, definindo os endpoints que serão disponibilizados e as operações que serão realizadas.</li></ol><ol type="1" id="d20adb50-f9a0-4e95-9bfe-e4c2845119b2" class="numbered-list" start="4"><li>Implementar a camada de persistência: A camada de persistência é responsável por realizar a comunicação com o banco de dados. Nesta camada, é possível implementar as operações de CRUD (Create, Read, Update, Delete), que são utilizadas para criar, ler, atualizar e deletar informações do banco de dados.</li></ol><ol type="1" id="7f77070d-36b0-4176-bf52-c4043bcb1288" class="numbered-list" start="5"><li>Configurar o servidor: Para disponibilizar a API, é necessário configurar o servidor onde a aplicação será executada. O SpringBoot utiliza o Tomcat como servidor padrão, mas é possível utilizar outros servidores, como o Jetty ou o Undertow.</li></ol><ol type="1" id="a57ec199-3fa4-4b0d-94c3-12047938b46e" class="numbered-list" start="6"><li>Testar a API: Após implementar a API, é necessário testá-la para garantir que ela está funcionando corretamente. Neste processo, é possível utilizar ferramentas como o Postman, que permite enviar requisições HTTP para a API e validar as respostas recebidas.</li></ol><p id="99094aaa-c614-4682-9870-79bacf743e89" class="">Em resumo, criar uma API usando SpringBoot é uma tarefa relativamente simples, que pode ser realizada seguindo alguns passos básicos. Com essa ferramenta, é possível criar APIs robustas e escaláveis, que atendam às necessidades dos desenvolvedores e dos usuários finais.</p><p id="0d698243-2cbf-467d-8efe-d1e1700466f9" class="">Para esse tutorial vamos usar uma base dados do Oscar para gerar os dados da API. </p><p id="7a403ae7-d9db-4d7f-9535-6a45d3138918" class="">Dentro do seu SGBD, crie um banco de dados chamado <em><strong>oscar_database </strong></em>e execute o script abaixo (que também pode ser encontrado neste repositório <a href="https://github.com/gabaugusto/basic-api-using-spring-boot-maven">aqui </a>para download.</p><figure id="2d3519bb-f04b-4e09-bdf7-253a07ad26f9"><div class="source"><a href="images/oscar_database_movies.sql">oscar_database_movies.sql</a></div></figure><h1 id="69335949-12dc-4473-b081-856c9250eb45" class="">Desenvolvimento da API</h1><h3 id="f65b74ae-be76-42cd-9873-80a8c7f01904" class="">Setup do Projeto</h3><p id="02afc04e-233e-4c05-bc2d-f1ff5ee54888" class="">Para criar uma API utilizando o Spring Initializr, primeiro precisamos criar o projeto dentro do site <a href="https://start.spring.io/">https://start.spring.io/</a>. O Spring Initializr é uma ferramenta online que ajuda a configurar rapidamente projetos baseados no Spring. Aqui está o passo a passo:</p><p id="7122692e-9822-4297-893c-d0d5d6ff8419" class="">1. Abra o endereço acima.</p><p id="831924d9-eebd-4a5c-8b33-46fe4c7178ad" class="">2. Em &quot;Type&quot;, selecione &quot;Maven&quot;. O conceito de Maven é explicado no Glossário.</p><p id="6e67e8a4-1a62-420c-bf9b-1c980d3cc65f" class="">3. Em &quot;Language&quot;, escolha a linguagem de programação Java.</p><p id="c0ff0d34-0ca8-411d-adb1-2b0a20f00d5a" class="">4. Em &quot;Spring Boot&quot;, selecione a versão desejada do Spring Boot.</p><p id="d5e4328f-0fd9-442b-8e76-6f09a0fcb8e7" class="">5. Em &quot;Project Metadata&quot;, preencha as informações sobre o seu projeto, como o nome do grupo (Group), o nome do artefato (Artifact), a versão, a descrição, o nome do pacote (Package name) e assim por diante.</p><p id="2ae9deea-9c58-43ca-8648-5e03c5d46029" class="">6. Em &quot;Dependencies&quot;, você pode selecionar as dependências que deseja incluir no seu projeto Spring. Por exemplo, se você deseja criar uma API REST, selecione &quot;Spring Web&quot;. Você pode adicionar outras dependências de acordo com suas necessidades, como a &quot;Spring Data JPA&quot; que usaremos para persistência de dados (explicada mais abaixo) ou a &quot;Spring Security&quot; para autenticação e autorização, entre outras.</p><p id="fc5cf960-7673-4663-9513-a63c69f36085" class="">Para o nosso projeto, usaremos a seguinte configuração: </p><figure id="ad380193-5817-4253-9757-8504fdd1adf1" class="image"><img style="width:1140px" src="images/StartSpringIo.png" alt="start.spring.io"/></figure><p id="9ca481f6-c9eb-4166-9177-92f1a86c7afb" class=""> 7.  Clique em &quot;Generate&quot; para criar o projeto. Um arquivo “.zip” será gerado para download. </p><ol type="1" id="b2ab6cd8-c4e7-4dfd-870b-042bd2167f07" class="numbered-list" start="8"><li>Descompacte a pasta. </li></ol><ol type="1" id="325e9b17-bae4-46f5-920e-baa815db19ea" class="numbered-list" start="8"><li>Nesse momento, abra o IntelliJ (ou outra IDE de preferência) e abra o projeto recém gerado através da pasta criada. </li></ol><h3 id="d26411ba-675f-471e-93cf-7d1d1ba0b58f" class="">Hora de Configurar!</h3><ol type="1" id="10f7fd2d-4c8d-408d-a893-ddd6e2d4d68d" class="numbered-list" start="10"><li>Abra a estrutura do projeto. Dentro do endereço “src/main/resources” você deverá encontrar um arquivo chamado “<strong>application_properties</strong>”. Esse arquivo é responsável por guardar todas as informações que conectam a sua aplicação em JAVA ao banco de dados. <p id="6d9cbe53-7048-4ac3-a129-234897be839a" class="">Um exemplo do conteúdo deste arquivo: </p></li></ol><pre id="536e8bf4-12f3-40c3-a81c-79e58ceb33ab" class="code code-wrap"><code>## Configura URL do banco
+## É importante que o MySQL esteja preparado com o banco antes de executar esse programa
+spring.datasource.url=jdbc:mysql://localhost:3306/oscar_database
+
+## Usuário de acesso
+spring.datasource.username=root
+
+## Senha do banco
+spring.datasource.password=&lt;senha_de_acesso_ao_banco&gt;
+
+## Configura atualizações do banco -&gt; Caso esteja como valor &quot;update&quot; a sua aplicação poderá fazer alterações nas tabelas no banco de acordo com o &quot;convencional&quot;. Para não permitir isso você pode usar o valor &quot;none&quot;. 
+spring.jpa.hibernate.ddl-auto=update
+
+##Configuração que mostra que o SQL que foi executado
+spring.jpa.properties.hibernate.show_sql=true</code></pre><p id="eb2657be-85c7-4803-8f2c-3a9777290eac" class=""><strong>Atenção:</strong> O endereço <em>mysql://localhost:3306/</em> é a parte que aponta para o <strong>MySQL </strong>(ou outra tecnologia para armazenamento de dados que esteja utilizando). A palavra “oscar” é referente ao banco que deseja conectar. </p><p id="22e67310-de54-4347-8590-239b6686f325" class="">A aplicação tentará se conectar através da porta <em>8080</em>, mas por várias vezes, precisamos configurar a porta de acesso, quando a porta <em>8080 </em>já está ocupada. Nesse caso, podemos atualizar também o arquivo “<strong>application_properties</strong>” com a linha: <code>server.port = 8080</code></p><p id="60e7c928-a7c1-47f0-842a-141b103432ec" class="">O número <em>8080 </em>pode ser alterado para <em>8081,8082, 8083</em> e assim por diante. </p><h3 id="c7c3ddf4-efbd-440a-864c-28f5cd7abb31" class="">Criando a estrutura de pastas. </h3><p id="af56e644-924b-4a91-9d32-31d4147e25e5" class="">Procure o caminho <strong><em>src/main/java/com/exemplo/demo. </em></strong>Dentro da pasta “<strong>demo</strong>” (os nomes das pastas podem variar de acordo com os nomes foram informados na criação do projeto dentro do portal <a href="https://start.spring.io/">start.spring.io</a>).</p><p id="499019b7-d83f-4f8b-9b71-6aadb12af14b" class="">Dentro dessa pasta você deve ter um arquivo chamado DemoApplication.java. Essa classe contém o método principal da sua classe. Não é necessário alterá-lo. </p><ol type="1" id="6dcfdd17-1444-4ba3-8c58-802f99fcf362" class="numbered-list" start="11"><li>Agora é o momento de criar três pastas para nossa arquitetura: models, controllers e repositories. </li></ol><p id="a57c4c3b-2360-4ab4-bd05-99e70fa82718" class=""><em>Dentro da estrutura de uma API, as classes são geralmente chamadas de &quot;models&quot;, &quot;controllers&quot; e &quot;repositories&quot; devido à arquitetura do padrão MVC (Model-View-Controller) e ao uso do Spring Framework.</em></p><p id="1c37bb0f-ceb6-4547-b687-95d1b76ab14c" class="">A estrutura abaixo segue o princípio da separação de responsabilidades, onde cada classe tem um papel específico. Os models representam as entidades e os dados da aplicação, os controllers lidam com as requisições e respostas HTTP, e os repositories tratam da persistência dos dados. Essa abordagem ajuda a manter o código organizado, modular e facilita a manutenção e a evolução da API ao longo do tempo.</p><ol type="1" id="675ffdce-93c5-4a03-8af7-a1050ffcfdb8" class="numbered-list" start="1"><li><strong>Models</strong>:
+As classes chamadas de &quot;models&quot; representam as entidades de negócio do seu sistema. Essas classes modelam os dados e geralmente correspondem às tabelas em um banco de dados relacional. Os modelos encapsulam os atributos e comportamentos relacionados a uma entidade específica, como um usuário, produto, pedido etc. Eles são responsáveis por representar os dados e fornecer métodos para acessá-los e manipulá-los.</li></ol><ol type="1" id="03f62356-29ad-44a8-b843-e4af77cbb3a5" class="numbered-list" start="2"><li><strong>Controllers</strong>:
+As classes chamadas de &quot;controllers&quot; são responsáveis por receber as solicitações HTTP dos clientes e processá-las. Os controllers lidam com a lógica da aplicação, roteando as solicitações para os métodos apropriados e retornando as respostas apropriadas. Eles atuam como intermediários entre as requisições do cliente e as operações a serem realizadas nos modelos e nos serviços. Os controllers geralmente contêm métodos que são anotados com @RequestMapping ou outras anotações do Spring para mapear os endpoints da API e definir o comportamento esperado.</li></ol><ol type="1" id="62888c96-ceb3-4197-aeee-6eb6698a4dd6" class="numbered-list" start="3"><li><strong>Repositories</strong>:
+As classes chamadas de &quot;repositories&quot; são responsáveis pela persistência dos dados. Elas são usadas para interagir com o banco de dados ou qualquer outro mecanismo de armazenamento de dados. Os repositories fornecem métodos para criar, recuperar, atualizar e excluir dados no banco de dados. Eles encapsulam a lógica de acesso aos dados e oferecem uma camada de abstração para as operações de leitura e gravação. Os repositories são tipicamente implementados usando frameworks ORM (Object-Relational Mapping), como o Spring Data JPA, que simplificam a interação com o banco de dados.</li></ol><p id="ab0dfa14-29e7-4a54-a8e7-6289174d39f7" class="">A estrutura do seu projeto deve ser similar a essa: </p><figure id="8cbd998f-41b8-4a5c-a7fa-51e9217693a3" class="image"><img style="width:291px" src="images/intellij.png" alt="Estrutura da API"/></figure><h3 id="aa9ab887-aec5-4c90-8f42-267040eeafb6" class="">Hora de Codar!</h3><p id="3c6bdc78-de6f-4dc9-850a-665c2f982e8b" class=""><em>É importante ressaltar que esses nomes de classes são apenas </em><em><strong>convenções </strong></em><em>utilizadas no desenvolvimento de APIs com o Spring Framework, mas você não está restrito a elas. Você pode personalizar os nomes das classes de acordo com a sua preferência ou necessidade, desde que mantenha a clareza e a consistência no código-fonte.</em></p><ol type="1" id="fd18b98c-0e09-4a66-b159-404dc351eb87" class="numbered-list" start="14"><li>Dentro da pasta <em>models</em>, crie a sua primeira Classe. Essa classe representará uma entidade/tabela do seu banco de dados, como “Usuários” ou “Produtos”. Nesse exemplo vamos usar a tabela “movies” do Banco de Dados “Oscar.sql”. </li></ol><ol type="1" id="57411f11-e149-4122-95bb-895517b6d570" class="numbered-list" start="15"><li>Essa Classe terá uma estrutura simples: declaração da classe,  declaração dos atributos e seus métodos. Declaração da classe:</li></ol><ol type="1" id="aeeaf516-06a4-43b7-ba5d-76eb3211750a" class="numbered-list" start="16"><li>Declaração da classe</li></ol><pre id="7a3a4eee-d4be-4bc4-bc87-c4c98f1f5bc2" class="code code-wrap"><code>@Entity //Mostra ao SPRING que é uma tabela
+@Table(schema = &quot;movies&quot;) // Dá nome a tabela 
+public class Movies{</code></pre><p id="695a153b-bd1f-47cd-b820-3b2cf66c80cf" class="">Importante: @Entity e @Table são duas marcações redundantes. O ideal é trabalhar somente com @Entity fazendo correspondência exata a uma tabela do banco. Caso o nome da tabela no banco seja diferente do que é apresentado no banco, podemos usar uma configuração da @Entity ou a marcação @Table para fazer ajustes. </p><ol type="1" id="c30ee72d-ef2c-4078-9d7b-e111d62c1e67" class="numbered-list" start="17"><li>Exemplo de Declaração dos atributos: </li></ol><pre id="a5499939-7753-48cb-bfdf-80bd9fa4ff7f" class="code code-wrap"><code>@Id
+@Column(name = &quot;id_movie&quot;)
+private int idMovie;
+
+@Column(name = &quot;year_film&quot;)
+private int yearFilm;
+
+@Column(name = &quot;year_ceremony&quot;)
+private int yearCeremony;
+
+private int ceremony;</code></pre><p id="d9045d6f-0116-41d0-a7a1-76e69921ca75" class="">Ao usar a anotação <code><strong>@Column</strong></code>, você pode personalizar várias propriedades de coluna, como nome, tipo de dados, ou o fato de ser uma coluna que representa um ID, tamanho, precisão, valores padrão, restrições de nullable, etc.</p><ol type="1" id="0133e34b-3cff-4e73-bb6b-56f508fa556d" class="numbered-list" start="18"><li>Declaração dos Atributos: </li></ol><pre id="3143e177-c692-4dea-8a32-506f47007245" class="code code-wrap"><code>public int getYearFilm() {
+    return yearFilm;
+}
+
+public void setYearFilm(int year_film) {
+    this.yearFilm = yearFilm;
+}</code></pre><p id="39a62e68-387e-4d12-a074-f4c0040a12e8" class="">Lembrando que o IntelliJ tem o recurso <em>Generate → Getters and Setters</em> para gerar todos os métodos automaticamente. </p><p id="e0b455cb-15a8-4198-a180-a11a01862768" class="">Dentro de um projeto, esse métodos precisa ser repetido para todas as entidades/tabelas do seu banco. </p><ol type="1" id="2a57580f-8ca0-431f-8489-7ddff7824ae7" class="numbered-list" start="19"><li>Agora, vamos montar uma nova Classe (focada na nossa classe Movies). Crie o arquivo <a href="http://MoviesController.java">MoviesController.java</a> dentro da pasta <em><strong>controllers.</strong></em></li></ol><ol type="1" id="d5f9aeb4-8ca8-4e2c-a91e-bc525999d14e" class="numbered-list" start="20"><li>Como sempre, a declaração da classe é simples.</li></ol><pre id="85303028-a625-4417-81d4-d9f484f9e3eb" class="code code-wrap"><code>@RestController //Marca como uma controladora REST ou como uma API
+@RequestMapping(&quot;/movies&quot;) //URL base dessa controladora
+public class MoviesController {</code></pre><ol type="1" id="c91bccbe-a4c9-4c70-9304-677050746dc2" class="numbered-list" start="21"><li>E para cada <em><strong>endpoint </strong></em>que criarmos, teremos um novo método. 
+Aqui trabalhamos com as regras do negócio. </li></ol><pre id="d09f95aa-1653-4fd0-9295-d352cb4bf235" class="code code-wrap"><code>@CrossOrigin //Para evitar o erro de CORS
+@GetMapping(&quot;/&quot;) 
+public List&lt;Movies&gt; findAllRecords(){
+    return movies.findAll();
+}
+
+@CrossOrigin //Para evitar o erro de CORS
+@GetMapping(&quot;/id/{id}&quot;) 
+public List&lt;Movies&gt; findAllRecords(){
+    return movies.findMoviesByidMovie();
+}</code></pre><p id="e688e61a-ef7c-4da4-b638-92b69ced1ffe" class=""><strong>Atenção</strong>: Repita os passos 20 e 21 para cada Classe dentro da pasta Model que você criou. </p><ol type="1" id="672da728-e498-48ea-a476-33b9ff10f6b5" class="numbered-list" start="22"><li>Por fim, dentro da pasta <em><strong>repositories,</strong></em><strong> </strong>criamos a Classe responsável por se comunicar com o banco de dados. </li></ol><pre id="c5b95c22-1856-4665-a412-92615b540a8e" class="code code-wrap"><code>@Repository
+public interface MoviesRepository extends JpaRepository&lt;Movies&gt; {
+    
+    Optional&lt;Award&gt; findMoviesByname(String name);
+
+    Optional&lt;Award&gt; findMoviesByidMovie(int id);
+}</code></pre><p id="50114a46-d9cb-47cb-88be-ecad963a9ec6" class="">O código acima define uma interface chamada <code><strong>MoviesRepository</strong></code> que estende a interface <code><strong>JpaRepository</strong></code> fornecida pelo Spring Data JPA. Vamos analisar o código em detalhes:</p><ol type="1" id="c4197675-fbf5-4446-9ffb-4aae6616a143" class="numbered-list" start="1"><li><code><strong>@Repository</strong></code>: É uma anotação do Spring Framework que marca essa interface como um componente que lida com a camada de persistência (repositório). Essa anotação permite que o Spring faça a injeção de dependência e gerencie a criação de instâncias dessa interface.</li></ol><ol type="1" id="66c44e8c-e214-40e6-bb82-e855fe89dadb" class="numbered-list" start="2"><li><code><strong>MoviesRepository</strong></code>: É o nome da interface que representa o repositório. O nome pode ser personalizado, mas é uma boa prática adicionar o sufixo &quot;Repository&quot; para indicar a finalidade da interface.</li></ol><ol type="1" id="e2780a80-a70a-4136-a31c-8696a16a9d9d" class="numbered-list" start="3"><li><code><strong>extends JpaRepository&lt;Movies&gt;</strong></code>: A interface <code><strong>MoviesRepository</strong></code> estende a interface <code><strong>JpaRepository</strong></code> do Spring Data JPA. <code><strong>JpaRepository</strong></code> é uma interface genérica fornecida pelo Spring Data JPA que oferece uma variedade de métodos <strong>CRUD </strong>(Create, Read, Update, Delete) pré-implementados para interagir com o banco de dados.</li></ol><ol type="1" id="3dceef88-5835-4670-88dc-fc78faaa94e0" class="numbered-list" start="4"><li><code><strong>Movies</strong></code>: É a classe de modelo (ou entidade) relacionada a esse repositório. O tipo genérico <code><strong>Movies</strong></code> especifica o tipo de objeto que será persistido e gerenciado pelo repositório.</li></ol><ol type="1" id="ea113bc0-6060-4fb6-8e1c-21a9c5e3f4c3" class="numbered-list" start="5"><li>Os métodos (<code><strong>findMoviesByname</strong></code> e <code><strong>findoMoviesByid_movie</strong></code>) são exemplos de consultas personalizadas que você pode adicionar ao repositório. Esses métodos seguem uma convenção de nomenclatura específica do Spring Data JPA, permitindo que você defina consultas simples apenas escrevendo o nome do método de acordo com um padrão predefinido. Eles são métodos de pesquisa por nome e ID do filme, respectivamente.</li></ol><p id="78c96312-fe7a-4fc3-a913-878fb59fcf19" class="">
+</p><ol type="1" id="ff20d479-8826-4e6b-9a02-c0ee8d0a751a" class="numbered-list" start="23"><li><strong>Execute o projeto. </strong><p id="165a68fc-ac33-445d-b343-63abdca977d1" class="">Se tudo deu certo, o seu projeto será executado e a mensagem “Started [nome_do_seu_projeto] in 9.167 seconds” aparecerá no console. </p></li></ol><ol type="1" id="cf31ed67-48dd-4fcb-bc54-00eef1efb3ae" class="numbered-list" start="24"><li><strong>Teste o seu projeto</strong> utilizando um software como o Postman ou o Insominia. Ao usar a URL gerada pelo IntelliJ - algo como <a href="http://localhost:8080/movies/"><em>http://localhost:8080/movies/</em></a><em> </em>- você poderá receber os dados da API e consumir no front. 
+
+<strong>Exemplo de dados recebidos:</strong></li></ol><figure id="87e73401-b0e3-4c1d-9915-96a87edab44b" class="image"><a href="images/consumoAPI.png"><img style="width:269px" src="images/consumoAPI.png"/></a><figcaption>Exemplo de dados.</figcaption></figure><h1 id="b104d779-9af6-4926-9c72-e3795b59d919" class="">Glosssário</h1><h2 id="ae770786-aeea-40de-843a-3a46b2d2af1b" class="">Spring e Spring Boot</h2><p id="0d8f5e2f-3769-461c-a590-e7b23be91f5c" class="">Spring é um framework de desenvolvimento de aplicações Java voltado para a construção de sistemas corporativos robustos e escaláveis. Ele fornece um conjunto abrangente de recursos e bibliotecas que facilitam o desenvolvimento, a configuração e a integração de aplicativos.</p><p id="e84d257c-9654-4666-a997-1d20a56d3af8" class="">Spring Boot, por sua vez, é uma extensão do Spring Framework que simplifica ainda mais o processo de criação de aplicativos Java. Ele oferece convenções de configuração inteligentes e um conjunto de bibliotecas pré-configuradas para facilitar o desenvolvimento de aplicativos independentes e prontos para produção.</p><p id="72e42f23-9d3f-4488-b07f-883e998d7eca" class="">A relação entre Spring e Spring Boot é que o Spring Boot é construído em cima do Spring Framework, aproveitando muitos de seus recursos e aprimorando a produtividade do desenvolvedor. O Spring Boot simplifica a configuração e a inicialização de aplicativos Spring, fornecendo padrões de configuração inteligentes e um modelo de programação &quot;convenção sobre configuração&quot;. Com o Spring Boot, os desenvolvedores podem criar aplicativos Java de forma mais rápida e eficiente, aproveitando os recursos poderosos do Spring Framework.</p><h2 id="73c303fa-b77a-4369-9e3b-22a3a3d555dd" class=""><strong>Maven </strong></h2><p id="50bf488e-e96b-4e17-9616-e0843105b4de" class="">O Apache Maven é uma ferramenta de gerenciamento de projetos amplamente utilizada no desenvolvimento de software em Java e outras linguagens. Ele oferece uma maneira fácil e eficiente de construir, configurar e gerenciar projetos Java, automatizando muitas tarefas comuns relacionadas à compilação, empacotamento, testes e dependências.</p><p id="3b4b9fab-d97f-41ba-8964-3d50096bb020" class="">O Maven segue o conceito de &quot;convenção sobre configuração&quot;, o que significa que, ao aderir às convenções e estrutura de diretórios predefinidas, muitas configurações podem ser inferidas automaticamente, reduzindo a quantidade de configuração manual necessária.</p><p id="534fc389-e9c9-42cd-8d40-afd3807a6f9d" class="">Aqui estão alguns dos principais recursos e conceitos do Maven:</p><ol type="1" id="d3d3d2dc-d681-4c9d-94e4-b7de083c57e7" class="numbered-list" start="1"><li><strong>Gerenciamento de dependências: </strong>O Maven facilita a gestão das dependências do projeto. Você pode especificar as dependências necessárias para sua aplicação no arquivo de configuração chamado &quot;pom.xml&quot; (Project Object Model). O Maven se encarrega de baixar automaticamente as dependências corretas do repositório central Maven ou de outros repositórios remotos.</li></ol><ol type="1" id="34e596f9-95ec-41e2-a985-df1f007563fa" class="numbered-list" start="2"><li><strong>Ciclo de vida de compilação: </strong>O Maven define um ciclo de vida de compilação padrão que consiste em fases, como &quot;compilar&quot;, &quot;testar&quot;, &quot;empacotar&quot; e assim por diante. Cada fase executa um conjunto de tarefas pré-definidas. Por exemplo, na fase de &quot;compilar&quot;, o código-fonte é compilado, enquanto na fase de &quot;testar&quot;, os testes unitários são executados.</li></ol><ol type="1" id="07966201-ae06-447a-80e8-ce4f030153ba" class="numbered-list" start="3"><li><strong>Plugins</strong>: O Maven utiliza plugins para executar várias tarefas. Os plugins fornecem funcionalidades adicionais ao ciclo de vida de compilação. Por exemplo, o plugin &quot;maven-compiler-plugin&quot; é responsável pela compilação do código-fonte, e o plugin &quot;maven-surefire-plugin&quot; executa os testes unitários.</li></ol><ol type="1" id="ac36d3ec-cc07-4a38-a0fc-20698f276831" class="numbered-list" start="4"><li><strong>Repositório central:</strong> O Maven possui um repositório central que contém uma vasta quantidade de bibliotecas, frameworks e plugins comumente utilizados. Quando você especifica uma dependência em seu arquivo &quot;pom.xml&quot;, o Maven procura automaticamente no repositório central para baixar as versões correspondentes.</li></ol><ol type="1" id="d8287c5f-0741-4526-a168-8d169c88a866" class="numbered-list" start="5"><li><strong>Personalização e extensibilidade:</strong> O Maven permite que você personalize e configure seu projeto de acordo com suas necessidades específicas. Você pode modificar o ciclo de vida de compilação, adicionar plugins adicionais, configurar variáveis de ambiente e muito mais.</li></ol><p id="8e4fe667-5bee-4601-8ce2-c111f3d9d2ed" class="">O Maven simplifica bastante o processo de construção e gerenciamento de projetos Java, oferecendo uma estrutura organizada e automatizando muitas tarefas comuns. Ele promove boas práticas de desenvolvimento e facilita a colaboração em equipes, tornando o processo de construção e entrega de software mais eficiente.</p><p id="dad56d40-0134-4e7a-8310-a17320fd33cf" class=""><strong>Há uma alternativa ao Maven?</strong></p><p id="4703e5bd-5e37-4b95-b4a5-edc0eb697e10" class="">Se você não usa o Maven ou não gosta dele, uma alternativa popular é o Gradle. Ele é uma ferramenta parecida com o Maven, mas mais flexível e fácil de usar. Com o Gradle, você pode escrever as configurações do seu projeto de forma mais simples e expressiva, usando uma linguagem especial. Ele também é mais rápido, pois só recompila as partes do seu código que foram modificadas. O Gradle tem muitos plugins disponíveis e facilita a migração de projetos do Maven. No geral, é uma boa opção se você está procurando uma alternativa ao Maven.</p><h2 id="3cc71815-ca51-43e0-8300-746369ffbe2c" class=""><strong>Persistência</strong></h2><p id="5f3e083d-f6ef-4696-95eb-af1ab4491f49" class="">Persistência, no contexto de desenvolvimento de software, refere-se à capacidade de armazenar e recuperar dados de forma duradoura, ou seja, <strong>preservar os dados além do tempo de execução da aplicação</strong>. A persistência é fundamental em muitos sistemas, especialmente aqueles que precisam armazenar informações de forma permanente, como dados de usuários, configurações, registros de transações etc.</p><p id="393c3841-27a5-421c-9ba8-493e752bab9a" class="">Quando falamos em persistência de dados, geralmente estamos nos referindo à interação entre a aplicação e algum tipo de mecanismo de armazenamento, como um banco de dados relacional (como MySQL, PostgreSQL, Oracle), um banco de dados NoSQL (como MongoDB, Cassandra, Redis), um sistema de arquivos, ou até mesmo serviços de armazenamento em nuvem.</p><p id="f999312b-deb9-49b7-8133-9d6e9b41100f" class="">A persistência permite que os dados sejam salvos em algum formato ou estrutura de armazenamento, geralmente organizados em tabelas (no caso de bancos de dados relacionais), documentos (em bancos de dados NoSQL baseados em documentos) ou outros modelos adequados ao mecanismo de armazenamento utilizado.</p><p id="53ef4f2f-9ede-4a91-8afb-a2a1c7c0c2c8" class="">A camada de persistência em um aplicativo é responsável por realizar as operações de leitura, gravação, atualização e exclusão de dados, bem como fornecer métodos para consultas e manipulação dos dados armazenados. No contexto do Spring Framework, a persistência de dados é frequentemente tratada pelo Spring Data, que oferece uma abstração para o acesso e manipulação de dados, facilitando a interação com diferentes mecanismos de armazenamento.</p><p id="0fa95e9a-e2f7-4a44-89d4-e57660a2db32" class="">A persistência de dados é essencial para muitas aplicações, permitindo que informações importantes sejam armazenadas de forma segura e recuperadas quando necessário. Ela desempenha um papel crucial em sistemas que precisam lidar com grandes volumes de dados e oferecer funcionalidades como busca, filtragem, ordenação e atualizações consistentes.</p><h1 id="b50e66e8-4592-4a6d-8678-7e4d99fff1ad" class="">Fechando o livro, mas não podemos encerrar o aprendizado. </h1><p id="9ea7a0be-7107-43bb-8b11-c0467a352039" class="">Vamos chegando ao fim deste treinamento de construção de APIs em Spring Boot. </p><p id="868e2092-ba02-4648-b398-eefc467d154a" class=""><strong>Lembrando</strong>: todo o material para download desde projeto está disponível para download <a href="https://github.com/gabaugusto/basic-api-using-spring-boot-maven">aqui</a>. </p><p id="1cb55fcb-2946-490f-916f-8022f539d67a" class="">Esperamos que este material tenha sido enriquecedor e que você tenha adquirido valiosas habilidades no desenvolvimento de APIs usando Spring Boot. Sabemos que aprender novas tecnologias e frameworks pode ser desafiador, mas você demonstrou perseverança e comprometimento, o que é fundamental para se destacar no mundo da programação.</p><p id="63442725-1240-43f6-971a-7dacdb75740b" class="">No entanto, lembre-se de que a jornada de aprendizado é contínua e nunca termina. A área de desenvolvimento de software está em constante evolução, e para se manter atualizado(a) e competitivo(a), é crucial continuar estudando e praticando. Aqui estão algumas áreas que você pode explorar para aprimorar ainda mais suas habilidades:</p><ol type="1" id="ff54bc13-4522-40fc-9178-4d8ac7b00cc4" class="numbered-list" start="1"><li><strong>Spring Data JPA</strong>: Aprofunde-se na camada de persistência e no mapeamento objeto-relacional com o Spring Data JPA. Aprenda a realizar consultas avançadas e otimizar o acesso ao banco de dados.</li></ol><ol type="1" id="34a9fc25-ee85-473b-afcc-b8fa3b74d929" class="numbered-list" start="2"><li><strong>Segurança na API</strong>: Estude as melhores práticas para proteger suas APIs, como autenticação, autorização, tokens de acesso e proteção contra ataques comuns.</li></ol><ol type="1" id="d0e99576-cded-45a9-9e7e-d514d6d583de" class="numbered-list" start="3"><li><strong>Testes automatizados</strong>: Explore diferentes tipos de testes (unitários, integração, end-to-end) e como implementá-los em suas APIs para garantir a qualidade do código.</li></ol><ol type="1" id="29a3e543-a9a7-428f-a0cf-f9b9ad0f0b92" class="numbered-list" start="4"><li><strong>Documentação da API</strong>: Aprenda a utilizar ferramentas como o Swagger para gerar documentação interativa para sua API, tornando mais fácil para outros desenvolvedores utilizarem seus serviços.</li></ol><ol type="1" id="372d3f81-8812-45c8-a7af-45c43c2904e1" class="numbered-list" start="5"><li><strong>Desempenho e escalabilidade</strong>: Compreenda como otimizar o desempenho da sua API e torná-la escalável para suportar um grande número de requisições.</li></ol><ol type="1" id="a7aec1b5-34b3-4424-990f-5be7ea22c1eb" class="numbered-list" start="6"><li><strong>Microsserviços</strong>: Explore o conceito de arquitetura de microsserviços, que é amplamente utilizado em aplicações modernas, e como o Spring Boot pode ser utilizado nesse contexto.</li></ol><ol type="1" id="b83a7f74-4c48-4a90-b976-8ba51eec1aa7" class="numbered-list" start="7"><li><strong>Integração com outras tecnologias</strong>: Aprofunde-se na integração da sua API com outras tecnologias, como bancos de dados NoSQL, serviços de mensageria e serviços de armazenamento em nuvem.</li></ol><p id="224e7f50-d158-4a70-870f-88a8944b7aaf" class="">Lembre-se de que a prática constante é essencial para fortalecer suas habilidades de desenvolvimento. Construa projetos pessoais, participe de comunidades de desenvolvedores e esteja sempre aberto(a) a aprender com os outros.</p><p id="b5938b4c-89a7-4c73-851e-136b5fb48c3c" class="">Continue estudando e aprimorando suas habilidades, e com certeza você alcançará novos patamares em sua carreira.</p></div></article></body></html>
